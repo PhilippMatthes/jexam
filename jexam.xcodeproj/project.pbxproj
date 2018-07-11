@@ -7,21 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		60A9313D1942F4C4D59C07AC /* Pods_jexam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C2E015DBA2300FAFD994D /* Pods_jexam.framework */; };
 		BE6BB74E20F6289000A80D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6BB74D20F6289000A80D6B /* AppDelegate.swift */; };
-		BE6BB75020F6289100A80D6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6BB74F20F6289100A80D6B /* ViewController.swift */; };
-		BE6BB75320F6289100A80D6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6BB75120F6289100A80D6B /* Main.storyboard */; };
 		BE6BB75520F6289200A80D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE6BB75420F6289200A80D6B /* Assets.xcassets */; };
 		BE6BB75820F6289200A80D6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6BB75620F6289200A80D6B /* LaunchScreen.storyboard */; };
+		BEFA396720F62D93001BE550 /* JExam.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA396620F62D93001BE550 /* JExam.swift */; };
+		BEFA396A20F6621B001BE550 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA396920F6621B001BE550 /* LoginController.swift */; };
+		BEFA396C20F662A0001BE550 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFA396B20F662A0001BE550 /* Alamofire.framework */; };
+		BEFA396E20F662A0001BE550 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFA396D20F662A0001BE550 /* Kanna.framework */; };
+		BEFA397020F662A0001BE550 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFA396F20F662A0001BE550 /* Material.framework */; };
+		BEFA397220F662A0001BE550 /* Motion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFA397120F662A0001BE550 /* Motion.framework */; };
+		BEFA397420F66594001BE550 /* AppNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA397320F66594001BE550 /* AppNavigationController.swift */; };
+		BEFA397620F6661A001BE550 /* LecturesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA397520F6661A001BE550 /* LecturesController.swift */; };
+		BEFA397820F66EA6001BE550 /* SemesterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA397720F66EA6001BE550 /* SemesterController.swift */; };
+		BEFA397D20F6768D001BE550 /* Controllers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFA397C20F6768D001BE550 /* Controllers.storyboard */; };
+		BEFA397F20F676AE001BE550 /* LectureDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFA397E20F676AE001BE550 /* LectureDetailController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AEB135C5D8DE5D9B708BBAA /* Pods-jexam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jexam.release.xcconfig"; path = "Pods/Target Support Files/Pods-jexam/Pods-jexam.release.xcconfig"; sourceTree = "<group>"; };
+		180C2E015DBA2300FAFD994D /* Pods_jexam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_jexam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6BB74A20F6289000A80D6B /* jexam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jexam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6BB74D20F6289000A80D6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BE6BB74F20F6289100A80D6B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		BE6BB75220F6289100A80D6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BE6BB75420F6289200A80D6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE6BB75720F6289200A80D6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE6BB75920F6289200A80D6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEFA396620F62D93001BE550 /* JExam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JExam.swift; sourceTree = "<group>"; };
+		BEFA396920F6621B001BE550 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		BEFA396B20F662A0001BE550 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEFA396D20F662A0001BE550 /* Kanna.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Kanna.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEFA396F20F662A0001BE550 /* Material.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Material.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEFA397120F662A0001BE550 /* Motion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Motion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEFA397320F66594001BE550 /* AppNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationController.swift; sourceTree = "<group>"; };
+		BEFA397520F6661A001BE550 /* LecturesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LecturesController.swift; sourceTree = "<group>"; };
+		BEFA397720F66EA6001BE550 /* SemesterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemesterController.swift; sourceTree = "<group>"; };
+		BEFA397C20F6768D001BE550 /* Controllers.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Controllers.storyboard; sourceTree = "<group>"; };
+		BEFA397E20F676AE001BE550 /* LectureDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LectureDetailController.swift; sourceTree = "<group>"; };
+		E3FCBD20B6DB6B4C324397E7 /* Pods-jexam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-jexam.debug.xcconfig"; path = "Pods/Target Support Files/Pods-jexam/Pods-jexam.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +51,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEFA396C20F662A0001BE550 /* Alamofire.framework in Frameworks */,
+				BEFA396E20F662A0001BE550 /* Kanna.framework in Frameworks */,
+				BEFA397020F662A0001BE550 /* Material.framework in Frameworks */,
+				BEFA397220F662A0001BE550 /* Motion.framework in Frameworks */,
+				60A9313D1942F4C4D59C07AC /* Pods_jexam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33A410007452AAD240B6F04D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BEFA396B20F662A0001BE550 /* Alamofire.framework */,
+				BEFA396D20F662A0001BE550 /* Kanna.framework */,
+				BEFA396F20F662A0001BE550 /* Material.framework */,
+				BEFA397120F662A0001BE550 /* Motion.framework */,
+				180C2E015DBA2300FAFD994D /* Pods_jexam.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B54544C4A90B5D859CBF142B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E3FCBD20B6DB6B4C324397E7 /* Pods-jexam.debug.xcconfig */,
+				0AEB135C5D8DE5D9B708BBAA /* Pods-jexam.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		BE6BB74120F6289000A80D6B = {
 			isa = PBXGroup;
 			children = (
 				BE6BB74C20F6289000A80D6B /* jexam */,
 				BE6BB74B20F6289000A80D6B /* Products */,
+				B54544C4A90B5D859CBF142B /* Pods */,
+				33A410007452AAD240B6F04D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +104,35 @@
 		BE6BB74C20F6289000A80D6B /* jexam */ = {
 			isa = PBXGroup;
 			children = (
-				BE6BB74D20F6289000A80D6B /* AppDelegate.swift */,
-				BE6BB74F20F6289100A80D6B /* ViewController.swift */,
-				BE6BB75120F6289100A80D6B /* Main.storyboard */,
+				BEFA396820F62D99001BE550 /* Controllers */,
+				BEFA396620F62D93001BE550 /* JExam.swift */,
 				BE6BB75420F6289200A80D6B /* Assets.xcassets */,
-				BE6BB75620F6289200A80D6B /* LaunchScreen.storyboard */,
+				BEFA397B20F6766B001BE550 /* Scenes */,
 				BE6BB75920F6289200A80D6B /* Info.plist */,
 			);
 			path = jexam;
+			sourceTree = "<group>";
+		};
+		BEFA396820F62D99001BE550 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BE6BB74D20F6289000A80D6B /* AppDelegate.swift */,
+				BEFA396920F6621B001BE550 /* LoginController.swift */,
+				BEFA397320F66594001BE550 /* AppNavigationController.swift */,
+				BEFA397520F6661A001BE550 /* LecturesController.swift */,
+				BEFA397720F66EA6001BE550 /* SemesterController.swift */,
+				BEFA397E20F676AE001BE550 /* LectureDetailController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BEFA397B20F6766B001BE550 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				BE6BB75620F6289200A80D6B /* LaunchScreen.storyboard */,
+				BEFA397C20F6768D001BE550 /* Controllers.storyboard */,
+			);
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +142,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE6BB75C20F6289200A80D6B /* Build configuration list for PBXNativeTarget "jexam" */;
 			buildPhases = (
+				9FBD725FE863C735BE041E8E /* [CP] Check Pods Manifest.lock */,
 				BE6BB74620F6289000A80D6B /* Sources */,
 				BE6BB74720F6289000A80D6B /* Frameworks */,
 				BE6BB74820F6289000A80D6B /* Resources */,
+				EAF8DC2B338E9C62C476F3D5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -122,35 +195,77 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEFA397D20F6768D001BE550 /* Controllers.storyboard in Resources */,
 				BE6BB75820F6289200A80D6B /* LaunchScreen.storyboard in Resources */,
 				BE6BB75520F6289200A80D6B /* Assets.xcassets in Resources */,
-				BE6BB75320F6289100A80D6B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9FBD725FE863C735BE041E8E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-jexam-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAF8DC2B338E9C62C476F3D5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-jexam/Pods-jexam-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-jexam/Pods-jexam-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE6BB74620F6289000A80D6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE6BB75020F6289100A80D6B /* ViewController.swift in Sources */,
+				BEFA396720F62D93001BE550 /* JExam.swift in Sources */,
+				BEFA397820F66EA6001BE550 /* SemesterController.swift in Sources */,
+				BEFA397420F66594001BE550 /* AppNavigationController.swift in Sources */,
+				BEFA397F20F676AE001BE550 /* LectureDetailController.swift in Sources */,
+				BEFA396A20F6621B001BE550 /* LoginController.swift in Sources */,
 				BE6BB74E20F6289000A80D6B /* AppDelegate.swift in Sources */,
+				BEFA397620F6661A001BE550 /* LecturesController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BE6BB75120F6289100A80D6B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BE6BB75220F6289100A80D6B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BE6BB75620F6289200A80D6B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -278,11 +393,13 @@
 		};
 		BE6BB75D20F6289200A80D6B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3FCBD20B6DB6B4C324397E7 /* Pods-jexam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S36925NV4E;
 				INFOPLIST_FILE = jexam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,11 +413,13 @@
 		};
 		BE6BB75E20F6289200A80D6B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AEB135C5D8DE5D9B708BBAA /* Pods-jexam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S36925NV4E;
 				INFOPLIST_FILE = jexam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

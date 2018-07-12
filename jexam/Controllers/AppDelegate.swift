@@ -7,44 +7,102 @@
 //
 
 import UIKit
+import UserNotifications
 import Material
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        let loginController = LoginController()
+        let navigationController = AppNavigationController(rootViewController: loginController)
+        
         window = UIWindow(frame: Screen.bounds)
-        window!.rootViewController = LoginController()
+        window!.rootViewController = navigationController
         window!.makeKeyAndVisible()
+        
+        // 30 min
+        application.setMinimumBackgroundFetchInterval(1800)
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            (permissionGranted, error) in
+        }
+        UNUserNotificationCenter.current().delegate = self
+
         return true
     }
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        NSLog("Performing background fetch for the following lectures: [\(Changelog.trackedLectures.map {$0.lectureName}.joined(separator: ", "))].")
+        
+        let dispatchGroup = DispatchGroup()
+        var newData = false
+        var c = [EnrollmentCandidate]()
+        
+        let serialQueue = DispatchQueue(label: "background-queue-jexam", qos: .background)
+        
+        for tracker in Changelog.trackedLectures {
+            dispatchGroup.enter()
+            JExam.availableEnrollmentCandidates(forLecture: tracker.lectureId, queue: serialQueue) {
+                candidatesResponse in
+                if let candidates = candidatesResponse?.candidates {
+                    c.append(contentsOf: candidates)
+                    NSLog("Downloaded enrollment candidates for \(tracker.lectureName) \(tracker.lectureId): \(candidates)")
+                    if Changelog.tracker(forLectureId: tracker.lectureId, hasChangedComparing: candidates) {
+                        NSLog("Changes in enrollment candidates detected!")
+                        newData = true
+                        let title = "\(tracker.lectureName) changed!"
+                        let infoText = "\(tracker.lectureName) now has \(candidates.count) enrollment options:\n\n" + candidates.map {"\($0.lectureType) \($0.name) on Weekday: \($0.timeInfo.weekday.description()) - \($0.room?.building.abbreviation ?? "") \($0.room?.roomNo ?? "")\n"} .joined(separator: "")
+                        self.sendNotification(title: title, infoText: infoText)
+                        Changelog.update(LectureTracker(lectureName: tracker.lectureName, lectureId: tracker.lectureId, enrollmentCandidateIds: candidates.map {$0.id}))
+                        
+                    }
+                }
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.wait()
+        
+        if !newData && Changelog.notifyAboutBackgroundFetchEvents {
+            let title = "Background Fetch"
+            let infoText = "Performed background fetch for \(Changelog.trackedLectures.map {$0.lectureName}.joined(separator: ", ")) and found the following enrollment candidates: \n\n " + c.map {"\($0.lectureType) \($0.name) on Weekday: \($0.timeInfo.weekday.description()) - \($0.room?.building.abbreviation ?? "") \($0.room?.roomNo ?? "")\n"} .joined(separator: "")
+            sendNotification(title: title, infoText: infoText)
+        }
+        
+        completionHandler(newData ? .newData : .noData)
     }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func sendNotification(title: String, infoText: String) {
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.body = infoText
+        UIApplication.shared.applicationIconBadgeNumber += 1
+        content.categoryIdentifier = "notification"
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let requestIdentifier = "notificationIdentifier"
+        let request = UNNotificationRequest(identifier: requestIdentifier, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) {
+            error in
+        }
     }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-
+    
 }
 

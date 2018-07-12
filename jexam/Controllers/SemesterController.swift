@@ -12,21 +12,30 @@ import UIKit
 
 class SemesterController: TableViewController {
     
-    var semesters = [JExam.Semester]()
+    var semesters = [Semester]()
     var jExam: JExam!
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        prepareNavigationItem()
         view.backgroundColor = Color.grey.lighten5
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
         
         tableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
         
+        refresh()
+    }
+    
+    @objc func refresh() {
         self.jExam.availableScheduleSemesters() {
             semesters in
             guard let semesters = semesters else {return}
             if semesters.count == 0 {
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                    self.showAlert()
                 }
                 return
             }
@@ -35,6 +44,17 @@ class SemesterController: TableViewController {
                 self.tableView.reloadData()
             }
         }
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "Oops...", message: "Something went wrong. Maybe you are still logged in on another computer. Try again later!", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Go back to login", style: .cancel, handler: {
+            action in
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
+        present(alert, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,7 +73,18 @@ class SemesterController: TableViewController {
         lecturesController.jExam = jExam
         lecturesController.semester = semesters[indexPath.row]
         let searchController = SearchBarController(rootViewController: lecturesController)
-        present(searchController, animated: true, completion: nil)
+        let searchButton = IconButton(image: Icon.cm.search)
+        searchButton.isEnabled = false
+        searchController.searchBar.leftViews = [searchButton]
+        navigationController?.show(searchController, sender: self)
+    }
+    
+    func prepareNavigationItem() {
+        navigationItem.titleLabel.text = "Available Semesters"
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
 }

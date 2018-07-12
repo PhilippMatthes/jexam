@@ -11,6 +11,8 @@ import Material
 import UIKit
 
 class LoginController: UIViewController {
+    fileprivate var control: Switch!
+    fileprivate var label: UILabel!
     fileprivate var userField: TextField!
     fileprivate var passwordField: TextField!
     fileprivate var jExam: JExam!
@@ -22,8 +24,10 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
         
+        prepareNavigationBar()
         preparePasswordField()
         prepareUserField()
+        prepareSwitch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,7 +37,39 @@ class LoginController: UIViewController {
     
 }
 
+extension LoginController: SwitchDelegate {
+    func switchDidChangeState(control: Switch, state: SwitchState) {
+        Changelog.notifyAboutBackgroundFetchEvents = state == .on
+    }
+}
+
 extension LoginController {
+    
+    fileprivate func prepareNavigationBar() {
+        navigationItem.titleLabel.text = "Login"
+        
+        let trackersButton = IconButton(image: Icon.cm.moreVertical)
+        trackersButton.addTarget(self, action: #selector(showTrackers), for: .touchUpInside)
+        navigationItem.rightViews = [trackersButton]
+    }
+    
+    @objc func showTrackers() {
+        let trackersController = TrackerController()
+        navigationController?.show(trackersController, sender: self)
+    }
+    
+    fileprivate func prepareSwitch() {
+        let control = Switch(state: Changelog.notifyAboutBackgroundFetchEvents ? .on : .off, style: .light, size: .small)
+        control.delegate = self
+        let label = UILabel()
+        label.text = "Notify about background fetches"
+        label.font = RobotoFont.medium(with: 15.0)
+        label.textColor = .black
+        
+        view.layout(control).center(offsetY: -userField.bounds.height - 120)
+        view.layout(label).center(offsetY: -userField.bounds.height - 160)
+    }
+    
     fileprivate func prepareUserField() {
         userField = TextField()
         userField.placeholder = "Username"
@@ -101,10 +137,14 @@ extension LoginController {
                         UserDefaults.standard.set(username, forKey: "username")
                         let semesterController = SemesterController()
                         semesterController.jExam = self.jExam
-                        self.present(semesterController, animated: true, completion: nil)
+                        self.navigationController?.show(semesterController, sender: self)
                     }
                 }
             }
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

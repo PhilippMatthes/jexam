@@ -13,17 +13,26 @@ import Material
 class LecturesController: TableViewController {
     
     var jExam: JExam!
-    var semester: JExam.Semester!
-    var lectures = [JExam.Lecture]()
+    var semester: Semester!
+    var lectures = [Lecture]()
     var filter: String?
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
         
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        
         prepareTable()
         prepareSearchBar()
+        prepareNavigationItem()
         
+        refresh()
+    }
+    
+    @objc func refresh() {
         self.jExam.availableLectures(forSemester: semester) {
             lectures in
             guard let lectures = lectures else {return}
@@ -47,22 +56,26 @@ class LecturesController: TableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as? TableViewCell else {return UITableViewCell()}
         let lectures = filteredLectures()
-        cell.textLabel?.text = lectures[indexPath.row].name ?? "n/a"
-        cell.detailTextLabel?.text = lectures[indexPath.row].semester ?? "n/a"
+        cell.textLabel?.text = lectures[indexPath.row].name
+        cell.detailTextLabel?.text = lectures[indexPath.row].semester
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyBoard = UIStoryboard(name: "Controllers", bundle: nil)
-        let lectureDetailController = storyBoard.instantiateViewController(withIdentifier: "LectureDetailController") as! LectureDetailController
-        lectureDetailController.lecture = filteredLectures()[indexPath.row]
-        lectureDetailController.modalPresentationStyle = .overCurrentContext
-        present(lectureDetailController, animated: true, completion: nil)
+        let enrollmentController = EnrollmentController()
+        enrollmentController.lectureId = filteredLectures()[indexPath.row].id
+        enrollmentController.lectureName = filteredLectures()[indexPath.row].name
+        enrollmentController.modalPresentationStyle = .overCurrentContext
+        navigationController?.show(enrollmentController, sender: self)
     }
     
-    func filteredLectures() -> [JExam.Lecture] {
+    func filteredLectures() -> [Lecture] {
         guard let filter = filter else {return lectures}
-        return lectures.filter {$0.name?.contains(filter) ?? false}
+        return lectures.filter {$0.name.contains(filter)}
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
 
@@ -75,6 +88,10 @@ fileprivate extension LecturesController {
     func prepareSearchBar() {
         guard let searchBar = searchBarController?.searchBar else {return}
         searchBar.delegate = self
+    }
+    
+    func prepareNavigationItem() {
+        navigationItem.titleLabel.text = semester.description
     }
 
 }

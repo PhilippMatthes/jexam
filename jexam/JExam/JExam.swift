@@ -14,19 +14,20 @@ typealias JSON = [[String: Any]]
 
 class JExam {
     
-    private var password: String
-    private var username: String
-    
     enum Endpoints {
         static let login = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/welcome/de.jexam.web.v4.5/spring/j_acegi_security_check"
         static let logout = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/logout"
         static let scheduler = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/scheduler"
+        static let enrollment = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/lectures/ajax"
     }
     
     enum XPaths {
         static let scheduleSemesterOptions = "//select[@name='semesterId']/option"
         static let scheduleLecturesJS = "//script[@type='text/javascript']"
     }
+    
+    private var password: String
+    private var username: String
     
     init(password: String, username: String) {
         self.password = password
@@ -54,19 +55,8 @@ class JExam {
         }
     }
     
-    func logout() {
-        logout() {success in
-            NSLog("%s", "Logged out")
-        }
-    }
-    
     deinit {
-        logout()
-    }
-    
-    struct Semester {
-        let id: String
-        let description: String
+        logout() {success in}
     }
     
     func availableScheduleSemesters(semesters: @escaping ([Semester]?) -> ()) {
@@ -89,44 +79,6 @@ class JExam {
                 semesters(nil)
                 return
             }
-        }
-    }
-    
-    struct Lecture: Decodable {
-        public let abbreviation: String?
-        public let contractTeachers: [Teacher]?
-        public let id: Int?
-        public let isActive: Bool?
-        public let isHasPracticalCourse: Bool?
-        public let name: String?
-        public let semester: String?
-        public let url: String?
-        
-        private enum CodingKeys: String, CodingKey {
-            case abbreviation = "abbreviation"
-            case contractTeachers = "contractTeachers"
-            case id = "id"
-            case isActive = "isActive"
-            case isHasPracticalCourse = "isHasPracticalCourse"
-            case name = "name"
-            case semester = "semester"
-            case url = "url"
-        }
-    }
-    
-    struct Teacher: Decodable {
-        public let firstname: String?
-        public let gender: String?
-        public let id: Int?
-        public let surname: String?
-        public let title: String?
-        
-        private enum CodingKeys: String, CodingKey {
-            case firstname = "firstname"
-            case gender = "gender"
-            case id = "id"
-            case surname = "surname"
-            case title = "title"
         }
     }
     
@@ -166,7 +118,7 @@ class JExam {
         Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.httpBody, headers: nil).responseString {
             response in
             do {
-                guard let html = response.result.value else {lectures(nil); return;}
+                guard let html = response.result.value else {lectures(nil); return}
                 let kannaHTML = try Kanna.HTML(html: html, encoding: .utf8)
                 let wantedJS = kannaHTML.xpath(XPaths.scheduleLecturesJS)
                     .filter {$0.content?.contains("teachingOffers") ?? false}
@@ -179,6 +131,29 @@ class JExam {
             } catch {
                 lectures(nil)
                 return
+            }
+        }
+    }
+    
+    static func availableEnrollmentCandidates(
+        forLecture lectureId: Int,
+        queue: DispatchQueue = DispatchQueue.main,
+        candidates: @escaping (EnrollmentCandidatesResponse?) -> ()
+    ) {
+        let parameters: [String: Any] = ["action": "getLectures", "toID": lectureId]
+        Alamofire.request(Endpoints.enrollment, method: .post, parameters: parameters, encoding: URLEncoding.httpBody, headers: nil).responseString(queue: queue) {
+            response in
+            guard
+                let jsonString = response.result.value,
+                let data = jsonString.data(using: .utf8)
+            else {candidates(nil); return}
+            do {
+                let jsonDecoder = JSONDecoder()
+                let decoded = try jsonDecoder.decode(EnrollmentCandidatesResponse.self, from: data)
+                candidates(decoded)
+            } catch {
+                print(error)
+                candidates(nil)
             }
         }
     }

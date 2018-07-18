@@ -11,8 +11,6 @@ import Material
 import UIKit
 
 class LoginController: UIViewController {
-    fileprivate var control: Switch!
-    fileprivate var label: UILabel!
     fileprivate var userField: TextField!
     fileprivate var passwordField: TextField!
     fileprivate var jExam: JExam!
@@ -24,10 +22,10 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = Color.grey.lighten5
         
+        prepareBackgroundListener()
         prepareNavigationBar()
         preparePasswordField()
         prepareUserField()
-        prepareSwitch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,13 +35,17 @@ class LoginController: UIViewController {
     
 }
 
-extension LoginController: SwitchDelegate {
-    func switchDidChangeState(control: Switch, state: SwitchState) {
-        Changelog.notifyAboutBackgroundFetchEvents = state == .on
-    }
-}
-
 extension LoginController {
+    
+    fileprivate func prepareBackgroundListener() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name:
+            UIApplication.willResignActiveNotification, object: nil)
+    }
+    
+    @objc func appMovedToBackground() {
+        passwordField.text = ""
+    }
     
     fileprivate func prepareNavigationBar() {
         navigationItem.titleLabel.text = "Login"
@@ -58,18 +60,6 @@ extension LoginController {
         navigationController?.show(trackersController, sender: self)
     }
     
-    fileprivate func prepareSwitch() {
-        let control = Switch(state: Changelog.notifyAboutBackgroundFetchEvents ? .on : .off, style: .light, size: .small)
-        control.delegate = self
-        let label = UILabel()
-        label.text = "Notify about background fetches"
-        label.font = RobotoFont.medium(with: 15.0)
-        label.textColor = .black
-        
-        view.layout(control).center(offsetY: -userField.bounds.height - 120)
-        view.layout(label).center(offsetY: -userField.bounds.height - 160)
-    }
-    
     fileprivate func prepareUserField() {
         userField = TextField()
         userField.placeholder = "Username"
@@ -82,7 +72,7 @@ extension LoginController {
             userField.text = username
         }
         
-        view.layout(userField).center(offsetY: -passwordField.bounds.height - 60).left(20).right(20)
+        view.layout(userField).center(offsetY: -passwordField.bounds.height - 140).left(20).right(20)
     }
     
     fileprivate func preparePasswordField() {
@@ -96,7 +86,7 @@ extension LoginController {
         // Setting the visibilityIconButton color.
         passwordField.visibilityIconButton?.tintColor = Color.green.base.withAlphaComponent(passwordField.isSecureTextEntry ? 0.38 : 0.54)
         
-        view.layout(passwordField).center().left(20).right(20)
+        view.layout(passwordField).center(offsetY: -80).left(20).right(20)
     }
 }
 
@@ -137,7 +127,10 @@ extension LoginController {
                         UserDefaults.standard.set(username, forKey: "username")
                         let semesterController = SemesterController()
                         semesterController.jExam = self.jExam
-                        self.navigationController?.show(semesterController, sender: self)
+                        let gradesController = GradesController()
+                        gradesController.jExam = self.jExam
+                        let tabsController = TabsController(viewControllers: [semesterController, gradesController])
+                        self.navigationController?.show(tabsController, sender: self)
                     }
                 }
             }

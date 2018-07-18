@@ -79,7 +79,7 @@ struct EnrollmentCandidate: Codable {
     public let freeForCancel: CancelationInformation
     public let timeInfo: TimeInformation
     public let teachingOfferId: Int
-    public let enrollmentStatus: String
+    public let enrollmentStatus: EnrollmentStatus
     public let sppw: Int
     public let id: Int
     public let groupNo: Int
@@ -122,6 +122,15 @@ struct EnrollmentCandidate: Codable {
     }
 }
 
+enum EnrollmentStatus: String, Codable {
+    case free = "FREE"
+    case passed = "PASSED"
+    case enrolled = "ENROLLED"
+    case inqueue = "INQUEUE"
+    case closed = "CLOSED"
+    case fixedEnrolled = "FIXED_ENROLLED"
+}
+
 struct CancelationInformation: Codable {
     public let stop: UInt64?
     public let start: UInt64
@@ -133,6 +142,14 @@ struct CancelationInformation: Codable {
         case start = "start"
         case slot = "slot"
         case week = "week"
+    }
+    
+    func stopTime() -> Date? {
+        return stop == nil ? nil : Date(timeIntervalSince1970: Double(exactly: stop!)! / 1000)
+    }
+    
+    func startTime() -> Date {
+        return Date(timeIntervalSince1970: Double(exactly: start)! / 1000)
     }
 }
 
@@ -180,6 +197,14 @@ struct FreeForEnrollmentInformation: Codable {
         case start = "start"
         case slot = "slot"
         case week = "week"
+    }
+    
+    func stopTime() -> Date? {
+        return stop == nil ? nil : Date(timeIntervalSince1970: Double(exactly: stop!)! / 1000)
+    }
+    
+    func startTime() -> Date {
+        return Date(timeIntervalSince1970: Double(exactly: start)! / 1000)
     }
 }
 

@@ -13,8 +13,9 @@ import Material
 class EnrollmentController: TableViewController {
     
     var enrollmentCandidates = [EnrollmentCandidate]()
-    var lectureId: Int!
-    var lectureName: String!
+
+    var lecture: Lecture!
+    
     var trackLectureButton: IconButton!
     private let refreshControl = UIRefreshControl()
     
@@ -35,7 +36,7 @@ class EnrollmentController: TableViewController {
     
     @objc func refresh() {
         refreshControl.beginRefreshing()
-        JExam.availableEnrollmentCandidates(forLecture: lectureId) {
+        JExam.availableEnrollmentCandidates(forLecture: lecture.id) {
             candidates in
             if let response = candidates {
                 self.enrollmentCandidates = response.candidates
@@ -57,12 +58,25 @@ class EnrollmentController: TableViewController {
             else {return UITableViewCell()}
         let c = enrollmentCandidates[indexPath.row]
         cell.textLabel?.text = "\(c.name)"
-        let memberString = c.maxMembers == 0 ? "\(c.currentMembers) enrolled" : "\(c.currentMembers)/\(c.maxMembers) enrolled"
+        cell.textLabel?.numberOfLines = 0
+        cell.backgroundColor = indexPath.row % 2 == 0 ? Config.darkColor : Config.lightColor
+        cell.textLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .white
+        cell.detailTextLabel?.numberOfLines = 0
+        let str1 = "\(c.lectureType)" + (c.room == nil ? "" : " - \(c.room!.building.abbreviation) \(c.room!.roomNo)")
+        var str2: String
         if c.timeInfo.weekday.weekday == 0 && c.timeInfo.slot == 0 {
-            cell.detailTextLabel?.text = "\(c.lectureType) - No time info - \(memberString)"
+            str2 = " - No time info"
         } else {
-            cell.detailTextLabel?.text = "\(c.lectureType) - \(c.timeInfo.weekday.description()) \(c.timeInfo.slot). DS - \(memberString)"
+            str2 = " - \(c.timeInfo.weekday.description()) \(c.timeInfo.slot). DS"
         }
+        let str3 = c.maxMembers == 0 ? " - \(c.currentMembers) enrolled\n\n" : " - \(c.currentMembers)/\(c.maxMembers) enrolled\n\n"
+        let str4 = "Enrollment possible from \(c.freeForEnroll.startTime())"
+        let str5 = c.freeForEnroll.stopTime() == nil ? "" : " to \(c.freeForEnroll.stopTime()!)\n"
+        let str6 = "Cancelling enrollment possible from \(c.freeForCancel.startTime())"
+        let str7 = c.freeForEnroll.stopTime() == nil ? "" : " to \(c.freeForCancel.stopTime()!)\n"
+        let str8 = "Teachers: \(c.teachingPersons.map {"\($0.title ?? "") \($0.firstname ?? "") \($0.surname ?? "")"}.joined(separator: ", "))"
+        cell.detailTextLabel?.text = str1 + str2 + str3 + str4 + str5 + str6 + str7 + str8
         return cell
     }
     
@@ -71,23 +85,24 @@ class EnrollmentController: TableViewController {
     }
     
     func prepareNavigationItem() {
-        navigationItem.titleLabel.text = lectureName
+        navigationItem.titleLabel.text = lecture.name
         
         prepareTrackButton()
     }
     
     func prepareTrackButton() {
-        trackLectureButton = IconButton(image: Changelog.tracks(lectureId: lectureId) ? Icon.cm.close : Icon.cm.check)
+        trackLectureButton = IconButton(image: Changelog.tracks(lectureId: lecture.id) ? Icon.cm.close : Icon.cm.check)
         trackLectureButton.addTarget(self, action: #selector(trackLecture), for: .touchUpInside)
         navigationItem.rightViews = [trackLectureButton]
     }
     
     @objc func trackLecture() {
-        if Changelog.tracks(lectureId: lectureId) {
-            Changelog.remove(lectureId: lectureId)
+        if Changelog.tracks(lectureId: lecture.id) {
+            Changelog.remove(lectureId: lecture.id)
             showAlert("This lecture will not be tracked anymore!")
         } else {
-            Changelog.add(LectureTracker(lectureName: lectureName, lectureId: lectureId, enrollmentCandidateIds: enrollmentCandidates.map {$0.id}))
+            let tracker = Tracker(lecture: lecture, enrollmentCandidates: enrollmentCandidates)
+            Changelog.add(tracker)
             showAlert("This lecture will now be tracked!")
         }
         prepareTrackButton()

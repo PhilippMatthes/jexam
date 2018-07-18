@@ -12,6 +12,7 @@ import Material
 class AppNavigationController: NavigationController {
     open override func prepare() {
         super.prepare()
+        prepareNavigationItem()
         isMotionEnabled = true
         
         guard let v = navigationBar as? NavigationBar else {return}
@@ -23,5 +24,9 @@ class AppNavigationController: NavigationController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    func prepareNavigationItem() {
+        navigationItem.titleLabel.text = "jExam Management"
     }
 }

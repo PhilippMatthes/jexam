@@ -19,6 +19,7 @@ class SemesterController: TableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareNavigationItem()
+        prepareTabItem()
         view.backgroundColor = Color.grey.lighten5
         
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -65,6 +66,9 @@ class SemesterController: TableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") else {return UITableViewCell()}
         cell.textLabel?.text = semesters[indexPath.row].description
         cell.detailTextLabel?.text = semesters[indexPath.row].id
+        cell.backgroundColor = indexPath.row % 2 == 0 ? Config.darkColor : Config.lightColor
+        cell.textLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .white
         return cell
     }
     
@@ -85,6 +89,14 @@ class SemesterController: TableViewController {
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    fileprivate func prepareTabItem() {
+        tabItem.title = "Enrollment"
+        
+        tabItem.setTabItemImage(Icon.add, for: .normal)
+        tabItem.setTabItemImage(Icon.pen, for: .selected)
+        tabItem.setTabItemImage(Icon.photoLibrary, for: .highlighted)
     }
     
 }

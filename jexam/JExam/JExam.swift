@@ -12,6 +12,7 @@ import Kanna
 
 typealias JSON = [[String: Any]]
 
+
 class JExam {
     
     enum Endpoints {
@@ -19,6 +20,7 @@ class JExam {
         static let logout = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/logout"
         static let scheduler = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/scheduler"
         static let enrollment = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/lectures/ajax"
+        static let results = "https://jexam.inf.tu-dresden.de/de.jexam.web.v4.5/spring/exams/results"
     }
     
     enum XPaths {
@@ -155,6 +157,22 @@ class JExam {
                 print(error)
                 candidates(nil)
             }
+        }
+    }
+    
+    func results(html: @escaping (String?) -> ()) {
+        let parameters: [String: Any] = ["asPdf": false, "withRetirements": false]
+        Alamofire.request(Endpoints.results, method: .post, parameters: parameters, encoding: URLEncoding.httpBody, headers: nil).responseString() {
+            response in
+            html(response.result.value)
+        }
+    }
+    
+    func resultsAsPdf(pdf: @escaping (Data?) -> ()) {
+        let parameters: [String: Any] = ["asPdf": true, "withRetirements": false]
+        Alamofire.request(Endpoints.results, method: .post, parameters: parameters, encoding: URLEncoding.httpBody, headers: nil).response {
+            response in
+            pdf(response.data)
         }
     }
     

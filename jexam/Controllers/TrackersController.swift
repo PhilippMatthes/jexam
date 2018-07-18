@@ -19,11 +19,8 @@ class TrackerController: TableViewController {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let lectureName = Changelog.trackedLectures[indexPath.row].lectureName
-        let lectureId = Changelog.trackedLectures[indexPath.row].lectureId
         let enrollmentController = EnrollmentController()
-        enrollmentController.lectureName = lectureName
-        enrollmentController.lectureId = lectureId
+        enrollmentController.lecture = Changelog.trackedLectures[indexPath.row].lecture
         navigationController?.show(enrollmentController, sender: self)
     }
     
@@ -33,7 +30,10 @@ class TrackerController: TableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as? TableViewCell else {return UITableViewCell()}
-        cell.textLabel?.text = Changelog.trackedLectures[indexPath.row].lectureName
+        cell.textLabel?.text = Changelog.trackedLectures[indexPath.row].lecture.name
+        cell.backgroundColor = indexPath.row % 2 == 0 ? Config.darkColor : Config.lightColor
+        cell.textLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .white
         return cell
     }
     

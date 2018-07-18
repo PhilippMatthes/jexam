@@ -10,6 +10,6 @@ import Foundation
 import UIKit
 
 class Config {
-    static let darkColor = UIColor(rgb: 0x3f2b96)
-    static let lightColor = UIColor(rgb: 0xa8c0ff)
+    static let darkColor = UIColor(rgb: 0x686de0)
+    static let lightColor = UIColor(rgb: 0x4834d4)
 }

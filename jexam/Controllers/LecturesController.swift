@@ -56,22 +56,26 @@ class LecturesController: TableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as? TableViewCell else {return UITableViewCell()}
         let lectures = filteredLectures()
+        cell.textLabel?.numberOfLines = 0
+        cell.detailTextLabel?.numberOfLines = 0
         cell.textLabel?.text = lectures[indexPath.row].name
         cell.detailTextLabel?.text = lectures[indexPath.row].semester
+        cell.backgroundColor = indexPath.row % 2 == 0 ? Config.darkColor : Config.lightColor
+        cell.textLabel?.textColor = .white
+        cell.detailTextLabel?.textColor = .white
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let enrollmentController = EnrollmentController()
-        enrollmentController.lectureId = filteredLectures()[indexPath.row].id
-        enrollmentController.lectureName = filteredLectures()[indexPath.row].name
+        enrollmentController.lecture = filteredLectures()[indexPath.row]
         enrollmentController.modalPresentationStyle = .overCurrentContext
         navigationController?.show(enrollmentController, sender: self)
     }
     
     func filteredLectures() -> [Lecture] {
         guard let filter = filter else {return lectures}
-        return lectures.filter {$0.name.contains(filter)}
+        return lectures.filter {$0.name.lowercased().contains(filter)}
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -91,14 +95,14 @@ fileprivate extension LecturesController {
     }
     
     func prepareNavigationItem() {
-        navigationItem.titleLabel.text = semester.description
+        navigationItem.titleLabel.text = "Lectures"
     }
 
 }
 
 extension LecturesController: SearchBarDelegate {
     func searchBar(searchBar: SearchBar, didChange textField: UITextField, with text: String?) {
-        filter = textField.text
+        filter = textField.text?.lowercased()
         tableView.reloadData()
     }
     

@@ -25,18 +25,19 @@
 //
 import Foundation
 import UIKit
+import Material
 
 extension CAShapeLayer {
     func drawRoundedRect(rect: CGRect, andColor color: UIColor, filled: Bool) {
         fillColor = filled ? color.cgColor : UIColor.white.cgColor
         strokeColor = color.cgColor
-        path = UIBezierPath(roundedRect: rect, cornerRadius: 7).cgPath
+        path = UIBezierPath(roundedRect: rect, cornerRadius: 0).cgPath
     }
 }
 
 private var handle: UInt8 = 0;
 
-extension UIBarButtonItem {
+extension IconButton {
     private var badgeLayer: CAShapeLayer? {
         if let b: AnyObject = objc_getAssociatedObject(self, &handle) as AnyObject? {
             return b as? CAShapeLayer
@@ -56,14 +57,14 @@ extension UIBarButtonItem {
     
     private func addBadge(text: String, withOffset offset: CGPoint = CGPoint.zero, andColor color: UIColor = UIColor.red, andFilled filled: Bool = true, andFontSize fontSize: CGFloat = 11) {
         
-        guard let view = self.customView else {
+        guard let view = self.imageView else {
             return
         }
         var font = UIFont.systemFont(ofSize: fontSize)
         
         font = UIFont.monospacedDigitSystemFont(ofSize: fontSize, weight: UIFont.Weight.regular)
         
-        let badgeSize = text.size(withAttributes: [NSAttributedStringKey.font: font])
+        let badgeSize = text.size(withAttributes: [NSAttributedString.Key.font: font])
         
         // Initialize Badge
         let badge = CAShapeLayer()
@@ -87,7 +88,7 @@ extension UIBarButtonItem {
         // Initialiaze Badge's label
         let label = CATextLayer()
         label.string = text
-        label.alignmentMode = kCAAlignmentCenter
+        label.alignmentMode = CATextLayerAlignmentMode.center
         label.font = font
         label.fontSize = font.pointSize
         

@@ -10,9 +10,12 @@
 		60A9313D1942F4C4D59C07AC /* Pods_jexam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180C2E015DBA2300FAFD994D /* Pods_jexam.framework */; };
 		BE1A55AD20F721C000D12EDB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A55AC20F721C000D12EDB /* Models.swift */; };
 		BE1A55B120F74BF900D12EDB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A55B020F74BF900D12EDB /* Config.swift */; };
-		BE1A55B320F74C2E00D12EDB /* Extensions in Resources */ = {isa = PBXBuildFile; fileRef = BE1A55B220F74C2E00D12EDB /* Extensions */; };
 		BE1A55B520F76BB700D12EDB /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1A55B420F76BB700D12EDB /* Changelog.swift */; };
 		BE4ACBF820FCD9C0008A5636 /* GradesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4ACBF720FCD9C0008A5636 /* GradesController.swift */; };
+		BE51D53B21008FCA00F09F42 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51D53A21008FCA00F09F42 /* Dispatcher.swift */; };
+		BE51D53D2100900400F09F42 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51D53C2100900400F09F42 /* Tracker.swift */; };
+		BE51D53F210094AA00F09F42 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51D53E210094AA00F09F42 /* NotificationController.swift */; };
+		BE590CE62100974900DC310D /* BadgeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE590CE52100974900DC310D /* BadgeExtension.swift */; };
 		BE6BB74E20F6289000A80D6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6BB74D20F6289000A80D6B /* AppDelegate.swift */; };
 		BE6BB75520F6289200A80D6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE6BB75420F6289200A80D6B /* Assets.xcassets */; };
 		BE6BB75820F6289200A80D6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE6BB75620F6289200A80D6B /* LaunchScreen.storyboard */; };
@@ -34,10 +37,13 @@
 		180C2E015DBA2300FAFD994D /* Pods_jexam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_jexam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE1A55AC20F721C000D12EDB /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		BE1A55B020F74BF900D12EDB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		BE1A55B220F74C2E00D12EDB /* Extensions */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Extensions; sourceTree = "<group>"; };
 		BE1A55B420F76BB700D12EDB /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
 		BE1A55B620F7787D00D12EDB /* jexam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = jexam.entitlements; sourceTree = "<group>"; };
 		BE4ACBF720FCD9C0008A5636 /* GradesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradesController.swift; sourceTree = "<group>"; };
+		BE51D53A21008FCA00F09F42 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
+		BE51D53C2100900400F09F42 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		BE51D53E210094AA00F09F42 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		BE590CE52100974900DC310D /* BadgeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeExtension.swift; sourceTree = "<group>"; };
 		BE6BB74A20F6289000A80D6B /* jexam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jexam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE6BB74D20F6289000A80D6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE6BB75420F6289200A80D6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,6 +109,14 @@
 			path = JExam;
 			sourceTree = "<group>";
 		};
+		BE590CE72100975300DC310D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BE590CE52100974900DC310D /* BadgeExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BE6BB74120F6289000A80D6B = {
 			isa = PBXGroup;
 			children = (
@@ -127,7 +141,9 @@
 				BE1A55B620F7787D00D12EDB /* jexam.entitlements */,
 				BE1A55B020F74BF900D12EDB /* Config.swift */,
 				BE1A55B420F76BB700D12EDB /* Changelog.swift */,
-				BE1A55B220F74C2E00D12EDB /* Extensions */,
+				BE51D53A21008FCA00F09F42 /* Dispatcher.swift */,
+				BE51D53C2100900400F09F42 /* Tracker.swift */,
+				BE590CE72100975300DC310D /* Extensions */,
 				BEFA396820F62D99001BE550 /* Controllers */,
 				BE1A55A720F7214800D12EDB /* JExam */,
 				BE6BB75420F6289200A80D6B /* Assets.xcassets */,
@@ -148,6 +164,7 @@
 				BEFA397E20F676AE001BE550 /* EnrollmentController.swift */,
 				BEAF5E8A20F7CB9700CA5CEC /* TrackersController.swift */,
 				BE4ACBF720FCD9C0008A5636 /* GradesController.swift */,
+				BE51D53E210094AA00F09F42 /* NotificationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -228,7 +245,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1A55B320F74C2E00D12EDB /* Extensions in Resources */,
 				BE6BB75820F6289200A80D6B /* LaunchScreen.storyboard in Resources */,
 				BE6BB75520F6289200A80D6B /* Assets.xcassets in Resources */,
 			);
@@ -286,18 +302,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE51D53F210094AA00F09F42 /* NotificationController.swift in Sources */,
 				BEFA396720F62D93001BE550 /* JExam.swift in Sources */,
 				BEFA397820F66EA6001BE550 /* SemesterController.swift in Sources */,
 				BE1A55B520F76BB700D12EDB /* Changelog.swift in Sources */,
 				BE1A55B120F74BF900D12EDB /* Config.swift in Sources */,
 				BE1A55AD20F721C000D12EDB /* Models.swift in Sources */,
 				BEAF5E8B20F7CB9700CA5CEC /* TrackersController.swift in Sources */,
+				BE51D53D2100900400F09F42 /* Tracker.swift in Sources */,
 				BEFA397420F66594001BE550 /* AppNavigationController.swift in Sources */,
 				BEFA397F20F676AE001BE550 /* EnrollmentController.swift in Sources */,
 				BEFA396A20F6621B001BE550 /* LoginController.swift in Sources */,
+				BE51D53B21008FCA00F09F42 /* Dispatcher.swift in Sources */,
 				BE6BB74E20F6289000A80D6B /* AppDelegate.swift in Sources */,
 				BEFA397620F6661A001BE550 /* LecturesController.swift in Sources */,
 				BE4ACBF820FCD9C0008A5636 /* GradesController.swift in Sources */,
+				BE590CE62100974900DC310D /* BadgeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

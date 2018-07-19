@@ -23,13 +23,13 @@ class LoginController: UIViewController {
         view.backgroundColor = Color.grey.lighten5
         
         prepareBackgroundListener()
-        prepareNavigationBar()
         preparePasswordField()
         prepareUserField()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        prepareNavigationBar()
         [userField, passwordField].forEach {$0?.isEnabled = true}
     }
     
@@ -41,10 +41,16 @@ extension LoginController {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name:
             UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name:
+            UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     @objc func appMovedToBackground() {
         passwordField.text = ""
+    }
+    
+    @objc func appMovedToForeground() {
+        prepareNavigationBar()
     }
     
     fileprivate func prepareNavigationBar() {
@@ -52,7 +58,20 @@ extension LoginController {
         
         let trackersButton = IconButton(image: Icon.cm.moreVertical)
         trackersButton.addTarget(self, action: #selector(showTrackers), for: .touchUpInside)
-        navigationItem.rightViews = [trackersButton]
+        
+        let notificationsButton = IconButton(image: Icon.cm.bell)
+        notificationsButton.addTarget(self, action: #selector(showNotifications), for: .touchUpInside)
+        let count = Dispatcher.notificationContents.count
+        if count > 0 {
+            notificationsButton.setBadge(text: "\(count)")
+        }
+        
+        navigationItem.rightViews = [trackersButton, notificationsButton]
+    }
+    
+    @objc func showNotifications() {
+        let notificationController = NotificationController()
+        navigationController?.show(notificationController, sender: self)
     }
     
     @objc func showTrackers() {

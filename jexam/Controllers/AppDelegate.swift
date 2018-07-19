@@ -11,12 +11,16 @@ import UserNotifications
 import Material
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = Dispatcher.notificationContents.count
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        UIApplication.shared.applicationIconBadgeNumber = Dispatcher.notificationContents.count
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -55,7 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if notificationContents.count != 0 {
                         newData = true
                     }
-                    self.send(notificationContents: notificationContents)
+                    Dispatcher.dispatch(notificationContents)
+                    let updatedTracker = Tracker(lecture: tracker.lecture, enrollmentCandidates: candidates)
+                    Changelog.update(updatedTracker)
                 }
                 dispatchGroup.leave()
             }
@@ -67,25 +73,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
-}
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    
-    func send(notificationContents: [UNMutableNotificationContent]) {
-        for content in notificationContents {
-            DispatchQueue.main.async {
-                UIApplication.shared.applicationIconBadgeNumber += 1
-            }
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        
-            let requestIdentifier = "notificationIdentifier"
-            let request = UNNotificationRequest(identifier: requestIdentifier, content: content, trigger: trigger)
-            
-            UNUserNotificationCenter.current().add(request) {
-                error in
-            }
-        }
-    }
-    
 }
 
